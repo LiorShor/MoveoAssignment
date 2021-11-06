@@ -23,4 +23,9 @@
     <string name="map">Map</string>
     <string name="list">List</string>
     <string name="unknown_email">The email you entered isn’t connected to an account</string>
+    <string name="new_note">New Note</string>
+    <string name="enter_title">Enter title</string>
+    <string name="enter_note_body">Enter note body</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
 </resources>

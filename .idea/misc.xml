@@ -17,7 +17,7 @@
         <entry key="..\:/Users/liors/AndroidStudioProjects/MoveoAssignment/app/src/main/res/layout/activity_login.xml" value="0.26367781155015196" />
         <entry key="..\:/Users/liors/AndroidStudioProjects/MoveoAssignment/app/src/main/res/layout/activity_login2.xml" value="0.5421875" />
         <entry key="..\:/Users/liors/AndroidStudioProjects/MoveoAssignment/app/src/main/res/layout/activity_main.xml" value="0.4316123188405797" />
-        <entry key="..\:/Users/liors/AndroidStudioProjects/MoveoAssignment/app/src/main/res/layout/activity_notes.xml" value="0.6417704011065007" />
+        <entry key="..\:/Users/liors/AndroidStudioProjects/MoveoAssignment/app/src/main/res/layout/activity_notes.xml" value="0.33" />
         <entry key="..\:/Users/liors/AndroidStudioProjects/MoveoAssignment/app/src/main/res/layout/dialog_login.xml" value="0.4116847826086957" />
         <entry key="..\:/Users/liors/AndroidStudioProjects/MoveoAssignment/app/src/main/res/layout/dialog_new_note.xml" value="0.5421875" />
         <entry key="..\:/Users/liors/AndroidStudioProjects/MoveoAssignment/app/src/main/res/layout/dialog_register.xml" value="0.25" />
@@ -25,6 +25,7 @@
         <entry key="..\:/Users/liors/AndroidStudioProjects/MoveoAssignment/app/src/main/res/layout/fragment_map.xml" value="0.5421875" />
         <entry key="..\:/Users/liors/AndroidStudioProjects/MoveoAssignment/app/src/main/res/layout/fragment_notes.xml" value="0.5421875" />
         <entry key="..\:/Users/liors/AndroidStudioProjects/MoveoAssignment/app/src/main/res/layout/fragment_register.xml" value="0.26367781155015196" />
+        <entry key="..\:/Users/liors/AndroidStudioProjects/MoveoAssignment/app/src/main/res/layout/note_row.xml" value="0.1707193515704154" />
         <entry key="..\:/Users/liors/AndroidStudioProjects/MoveoAssignment/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.5421875" />
       </map>
     </option>

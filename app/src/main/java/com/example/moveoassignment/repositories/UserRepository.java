@@ -57,10 +57,6 @@ public class UserRepository {
                                 .setDisplayName(fullName).build();
                         firebaseUser.updateProfile(profileUpdates);
                         loggedOutLiveData.postValue(false);
-/*                        String uid = firebaseUser.getUid();
-                        FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        DatabaseReference databaseReference = database.getReference("users").child(uid);
-                        databaseReference.setValue(user);*/
                     } else {
                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
                         registerErrorString.postValue(task.getException().getMessage());

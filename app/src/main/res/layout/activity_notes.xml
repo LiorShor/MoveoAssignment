@@ -9,17 +9,18 @@
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="110dp"
         android:background="@drawable/ic_wave"
         app:layout_constraintBottom_toTopOf="@+id/noteContainer"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
     </View>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/add_notefloating_action_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
@@ -61,10 +62,10 @@
         android:id="@+id/exitButton"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:background="@drawable/ic_exit"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
     </Button>
@@ -73,9 +74,9 @@
         android:id="@+id/userNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="5dp"
         android:textSize="20sp"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

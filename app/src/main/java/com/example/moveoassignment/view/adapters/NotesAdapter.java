@@ -11,13 +11,16 @@ import com.example.moveoassignment.databinding.NoteRowBinding;
 import com.example.moveoassignment.model.Note;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
     private ArrayList<Note> mNotesList;
     private final Context mContext;
 
-    public NotesAdapter(ArrayList<Note> notesList, Context context) {
-        this.mNotesList = notesList;
+    public NotesAdapter(Map<String,Note> noteMap, Context context) {
+        mNotesList = new ArrayList<>();
+        this.mNotesList.addAll(noteMap.values());
         this.mContext = context;
     }
 
@@ -48,8 +51,11 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
             this.mNoteRowBinding = noteRowBinding;
         }
     }
-    public void setStatusesList(ArrayList<Note> notesList) {
-        this.mNotesList = notesList;
+    public void setStatusesList(Map<String,Note> notesMap) {
+        mNotesList.clear();
+        this.mNotesList.addAll( notesMap.values());
         notifyDataSetChanged();
     }
+
+
 }

@@ -5,11 +5,14 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.Date;
 
 public class Note {
-    private final String mNoteID;
+    private String mNoteID;
     private Date mCreationDate;
     private String mTitle;
     private String mBody;
     private LatLng mLocation;
+
+    public Note() {
+    }
 
     public Note(String noteID, Date creationDate, String title, String body, LatLng location) {
         this.mNoteID = noteID;
@@ -17,6 +20,13 @@ public class Note {
         this.mTitle = title;
         this.mBody = body;
         this.mLocation = location;
+    }
+
+    public Note(String mNoteID, Date mCreationDate, String mTitle, String mBody) {
+        this.mNoteID = mNoteID;
+        this.mCreationDate = mCreationDate;
+        this.mTitle = mTitle;
+        this.mBody = mBody;
     }
 
     public String getNoteID() {
