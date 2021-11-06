@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.moveoassignment.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -16,6 +17,8 @@ public class UserRepository {
     private static UserRepository instance;
     private final MutableLiveData<FirebaseUser> loggedInUser = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loggedOutLiveData = new MutableLiveData<>();
+    private final MutableLiveData<String> loginErrorString = new MutableLiveData<>();
+    private final MutableLiveData<String> registerErrorString = new MutableLiveData<>();
 
     public static UserRepository getInstance() {
         if (instance == null) {
@@ -31,15 +34,14 @@ public class UserRepository {
         }
     }
 
-    public MutableLiveData<FirebaseUser> getLoggedInUser() {
-        return loggedInUser;
-    }
-
-    public void login(String email, String password) {
+    public void login(String email, String password, Context context) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(authResult -> {
                     if (authResult.isSuccessful()) {
                         loggedInUser.postValue(mAuth.getCurrentUser());
+                        loggedOutLiveData.postValue(false);
+                    } else {
+                        loginErrorString.postValue(context.getString(R.string.unknown_email));
                     }
                 });
     }
@@ -54,12 +56,14 @@ public class UserRepository {
                         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                 .setDisplayName(fullName).build();
                         firebaseUser.updateProfile(profileUpdates);
+                        loggedOutLiveData.postValue(false);
 /*                        String uid = firebaseUser.getUid();
                         FirebaseDatabase database = FirebaseDatabase.getInstance();
                         DatabaseReference databaseReference = database.getReference("users").child(uid);
                         databaseReference.setValue(user);*/
                     } else {
                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                        registerErrorString.postValue(task.getException().getMessage());
                     }
                 });
     }
@@ -71,5 +75,17 @@ public class UserRepository {
 
     public MutableLiveData<Boolean> getLoggedOutLiveData() {
         return loggedOutLiveData;
+    }
+
+    public MutableLiveData<String> getRegisterErrorString() {
+        return registerErrorString;
+    }
+
+    public MutableLiveData<String> getLoginErrorString() {
+        return loginErrorString;
+    }
+
+    public MutableLiveData<FirebaseUser> getLoggedInUser() {
+        return loggedInUser;
     }
 }

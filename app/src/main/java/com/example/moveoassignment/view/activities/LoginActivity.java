@@ -12,13 +12,13 @@ import android.os.Bundle;
 import com.example.moveoassignment.R;
 import com.example.moveoassignment.databinding.ActivityLoginBinding;
 import com.example.moveoassignment.view.Communicator;
-import com.example.moveoassignment.view.fragments.LoginFragment;
-import com.example.moveoassignment.view.fragments.RegistrationFragment;
-import com.example.moveoassignment.viewmodel.LoginViewModel;
+import com.example.moveoassignment.view.fragments.login.LoginFragment;
+import com.example.moveoassignment.view.fragments.login.RegistrationFragment;
+import com.example.moveoassignment.viewmodel.LoginRegisterViewModel;
 
 public class LoginActivity extends AppCompatActivity implements Communicator {
     private ActivityLoginBinding mActivityLoginBinding;
-    private LoginViewModel mLoginViewModel;
+    private LoginRegisterViewModel mLoginRegisterViewModel;
     private boolean isSignInFragment = true;
 
     @Override
@@ -26,10 +26,10 @@ public class LoginActivity extends AppCompatActivity implements Communicator {
         super.onCreate(savedInstanceState);
         mActivityLoginBinding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(mActivityLoginBinding.getRoot());
-        mLoginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
-        mLoginViewModel.getUser().observe(this, user ->
+        mLoginRegisterViewModel = new ViewModelProvider(this).get(LoginRegisterViewModel.class);
+        mLoginRegisterViewModel.getLoggedOutLiveData().observe(this, isLoggedOut ->
         {
-            if (user != null) {
+            if (!isLoggedOut) {
                 Intent intent = new Intent(this, NotesActivity.class);
                 startActivity(intent);
             }
@@ -68,15 +68,5 @@ public class LoginActivity extends AppCompatActivity implements Communicator {
             // Turn the flag on cause we were back from SignUpFragment
             isSignInFragment = true;
         }
-    }
-
-    /***
-     * Use this method when user selects to sign out.
-     * We will clear shared preferences and navigate him back to the login screen
-     * @param context used for intent
-     */
-    public static void signOutFromApplication(ContextWrapper context) {
-        Intent intent = new Intent(context.getApplicationContext(), LoginActivity.class);
-        context.startActivity(intent);
     }
 }

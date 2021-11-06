@@ -19,4 +19,8 @@
     <string name="registration">Registration</string>
     <string name="enter_full_name">Enter full name</string>
     <string name="register">Register</string>
+    <string name="add_note">Add note</string>
+    <string name="map">Map</string>
+    <string name="list">List</string>
+    <string name="unknown_email">The email you entered isn’t connected to an account</string>
 </resources>

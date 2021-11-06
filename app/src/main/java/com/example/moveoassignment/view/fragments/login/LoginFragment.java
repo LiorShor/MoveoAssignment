@@ -1,4 +1,4 @@
-package com.example.moveoassignment.view.fragments;
+package com.example.moveoassignment.view.fragments.login;
 
 import android.os.Bundle;
 
@@ -13,14 +13,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.moveoassignment.databinding.FragmentLoginBinding;
 import com.example.moveoassignment.view.activities.LoginActivity;
-import com.example.moveoassignment.viewmodel.LoginViewModel;
+import com.example.moveoassignment.viewmodel.LoginRegisterViewModel;
+import com.google.android.material.textfield.TextInputLayout;
 
 
 public class LoginFragment extends Fragment {
-    private LoginViewModel mLoginViewModel;
+    private LoginRegisterViewModel mLoginRegisterViewModel;
     private FragmentLoginBinding mDialogLoginBinding;
 
     public LoginFragment() {
@@ -40,22 +42,28 @@ public class LoginFragment extends Fragment {
         final Button loginButton = mDialogLoginBinding.loginButton;
         final EditText emailEditText = mDialogLoginBinding.emailTextInputEditText;
         final EditText passwordEditText = mDialogLoginBinding.passwordTextInputEditText;
-        mLoginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
+        final TextInputLayout emailLayout = mDialogLoginBinding.emailTextInputLayout;
+        final TextInputLayout passwordLayout = mDialogLoginBinding.passwordTextInputLayout;
+        mLoginRegisterViewModel = ViewModelProviders.of(this).get(LoginRegisterViewModel.class);
         registerButton.setOnClickListener(view1 -> {
             if (getActivity() != null) {
                 ((LoginActivity) getActivity()).navigateToRegistration();
             }
         });
-        mLoginViewModel.getRegisterFormState().observe(getViewLifecycleOwner(), loginFormState -> {
+        mLoginRegisterViewModel.getLoginFormState().observe(getViewLifecycleOwner(), loginFormState -> {
             if (loginFormState == null) {
                 return;
             }
             loginButton.setEnabled(loginFormState.ismIsDataValid());
             if (loginFormState.getUsernameError() != null) {
-                emailEditText.setError(getString(loginFormState.getUsernameError()));
+                emailLayout.setError(getString(loginFormState.getUsernameError()));
+            } else {
+                emailLayout.setError(null);
             }
             if (loginFormState.getPasswordError() != null) {
-                passwordEditText.setError(getString(loginFormState.getPasswordError()));
+                passwordLayout.setError(getString(loginFormState.getPasswordError()));
+            } else {
+                passwordLayout.setError(null);
             }
         });
         TextWatcher afterTextChangedListener = new TextWatcher() {
@@ -71,17 +79,19 @@ public class LoginFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                mLoginViewModel.loginDataChanged(
+                mLoginRegisterViewModel.loginDataVerify(
                         emailEditText.getText().toString(),
                         passwordEditText.getText().toString());
             }
         };
         emailEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
-        loginButton.setOnClickListener(view1 -> mLoginViewModel.login(
+        loginButton.setOnClickListener(view1 -> mLoginRegisterViewModel.login(
                 emailEditText.getText().toString(),
-                passwordEditText.getText().toString()));
+                passwordEditText.getText().toString(),
+                getContext()));
 
-
+        mLoginRegisterViewModel.getLoginString().observe(getViewLifecycleOwner(),s ->
+                Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show());
     }
 }

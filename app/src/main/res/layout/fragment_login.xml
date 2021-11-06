@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragments.LoginFragment">
+    tools:context=".view.fragments.login.LoginFragment">
 
 
     <View
         android:id="@+id/topWave"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:background="@drawable/ic_wave"
+        android:background="@drawable/ic_wave_3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -114,6 +114,7 @@
         android:background="@drawable/button_style"
         android:enabled="false"
         android:text="@string/login"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintBottom_toTopOf="@+id/registerButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"

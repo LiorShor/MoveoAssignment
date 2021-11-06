@@ -1,4 +1,4 @@
-package com.example.moveoassignment.view.fragments;
+package com.example.moveoassignment.view.fragments.login;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -16,11 +16,12 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.moveoassignment.databinding.FragmentRegisterBinding;
 
-import com.example.moveoassignment.viewmodel.RegisterViewModel;
+import com.example.moveoassignment.viewmodel.LoginRegisterViewModel;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class RegistrationFragment extends Fragment {
     private FragmentRegisterBinding mFragmentRegisterBinding;
-    private RegisterViewModel mRegisterViewModel;
+    private LoginRegisterViewModel mRegisterViewModel;
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -28,21 +29,30 @@ public class RegistrationFragment extends Fragment {
         final EditText fullNameEditText = mFragmentRegisterBinding.fullNameInputEditText;
         final EditText emailEditText = mFragmentRegisterBinding.emailTextInputEditText;
         final EditText passwordEditText = mFragmentRegisterBinding.passwordTextInputEditText;
+        final TextInputLayout fullNameLayout = mFragmentRegisterBinding.fullNameTextInputLayout;
+        final TextInputLayout emailLayout = mFragmentRegisterBinding.emailTextInputLayout;
+        final TextInputLayout passwordLayout = mFragmentRegisterBinding.passwordTextInputLayout;
         final Button registerButton = mFragmentRegisterBinding.registerButton;
-        mRegisterViewModel = ViewModelProviders.of(this).get(RegisterViewModel.class);
+        mRegisterViewModel = ViewModelProviders.of(this).get(LoginRegisterViewModel.class);
         mRegisterViewModel.getRegisterFormState().observe(getViewLifecycleOwner(), registerFormState -> {
             if (registerFormState == null) {
                 return;
             }
             registerButton.setEnabled(registerFormState.ismIsDataValid());
             if (registerFormState.getUsernameError() != null) {
-                emailEditText.setError(getString(registerFormState.getUsernameError()));
+                emailLayout.setError(getString(registerFormState.getUsernameError()));
+            } else {
+                emailLayout.setError(null);
             }
             if (registerFormState.getPasswordError() != null) {
-                passwordEditText.setError(getString(registerFormState.getPasswordError()));
+                passwordLayout.setError(getString(registerFormState.getPasswordError()));
+            } else {
+                passwordLayout.setError(null);
             }
             if (registerFormState.getFullNameError() != null) {
-                fullNameEditText.setError(getString(registerFormState.getFullNameError()));
+                fullNameLayout.setError(getString(registerFormState.getFullNameError()));
+            } else {
+                fullNameLayout.setError(null);
             }
         });
         TextWatcher afterTextChangedListener = new TextWatcher() {
@@ -58,7 +68,7 @@ public class RegistrationFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                mRegisterViewModel.registerDataChanged(fullNameEditText.getText().toString(),
+                mRegisterViewModel.registerDataVerify(fullNameEditText.getText().toString(),
                         emailEditText.getText().toString(),
                         passwordEditText.getText().toString());
             }
@@ -73,10 +83,8 @@ public class RegistrationFragment extends Fragment {
                     emailEditText.getText().toString(),
                     passwordEditText.getText().toString(),
                     getContext());
-            mRegisterViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
-                if (user == null) {
-                    Toast.makeText(getContext(), "Error, could not create new user", Toast.LENGTH_SHORT).show();
-                }
+            mRegisterViewModel.getRegisterString().observe(getViewLifecycleOwner(), string -> {
+                Toast.makeText(getContext(), string, Toast.LENGTH_SHORT).show();
             });
         });
     }
