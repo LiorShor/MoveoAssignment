@@ -13,7 +13,7 @@
         android:background="@drawable/ic_wave"
         app:layout_constraintBottom_toTopOf="@+id/noteContainer"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -76,6 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:textSize="20sp"
+        android:fontFamily="@font/title_font"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

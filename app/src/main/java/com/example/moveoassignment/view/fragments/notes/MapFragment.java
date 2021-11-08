@@ -10,15 +10,24 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.moveoassignment.R;
+import com.example.moveoassignment.databinding.FragmentMapBinding;
+import com.example.moveoassignment.model.Note;
+import com.example.moveoassignment.view.activities.NotesActivity;
+import com.example.moveoassignment.viewmodel.NotesViewModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapFragment extends Fragment {
+import java.util.Map;
 
+public class MapFragment extends Fragment {
+    private NotesViewModel mNotesViewModel;
+    private FragmentMapBinding mFragmentMapBinding;
+    private Map<String, Note> notesMap;
     private final OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         /**
@@ -31,10 +40,23 @@ public class MapFragment extends Fragment {
          * user has installed Google Play services and returned to the app.
          */
         @Override
-        public void onMapReady(GoogleMap googleMap) {
-            LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        public void onMapReady(@NonNull GoogleMap googleMap) {
+            googleMap.clear();
+            if (notesMap != null) {
+                for (Note note : notesMap.values()) {
+                    LatLng coordinates = new LatLng(note.getLocation().getLatitude(), note.getLocation().getLongitude());
+                    googleMap.addMarker(new MarkerOptions().position(coordinates).title(note.getNoteID()));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 15f));
+                    googleMap.setOnMarkerClickListener(marker -> {
+                        if (getActivity() != null) {
+                            ((NotesActivity) getActivity()).showNewTaskDialog(notesMap.get(marker.getTitle()));
+                            return true;
+                        }
+                        return false;
+                    });
+                }
+            }
+            mFragmentMapBinding.map.onResume();
         }
     };
 
@@ -43,16 +65,21 @@ public class MapFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_map, container, false);
+        mFragmentMapBinding = FragmentMapBinding.inflate(inflater, container, false);
+        return mFragmentMapBinding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        SupportMapFragment mapFragment =
-                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(callback);
-        }
+        mFragmentMapBinding.map.onCreate(savedInstanceState);
+        mNotesViewModel = ((NotesActivity) getActivity()).getNotesViewModel();
+        mNotesViewModel.getIsDataChanged().observe(getViewLifecycleOwner(), hasData ->
+        {
+            if (hasData) {
+                notesMap = mNotesViewModel.getNotesMap().getValue();
+                mFragmentMapBinding.map.getMapAsync(callback);
+            }
+        });
     }
 }

@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.moveoassignment.model.Note;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,7 +16,6 @@ import java.util.Map;
 
 public class NotesRepository {
     private static NotesRepository instance;
-    //    private static DataLoadListener dataLoadListener;
     private static final FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private final MutableLiveData<Boolean> isDataChanged = new MutableLiveData<>();
     private final Map<String, Note> mNotesMap;
@@ -35,7 +33,7 @@ public class NotesRepository {
         return instance;
     }
 
-    private void writeNewNoteToDatabase(Note note) {
+    private void writeNoteToDatabase(Note note) {
         DatabaseReference databaseReference = database.getReference("notes").child(mAuth.getCurrentUser().getUid()).child(note.getNoteID());
         databaseReference.setValue(note);
         mNotesMap.put(note.getNoteID(), note);
@@ -51,7 +49,6 @@ public class NotesRepository {
                     mNotesMap.put(childDataSnapshot.getKey(), childDataSnapshot.getValue(Note.class));
                 }
                 isDataChanged.postValue(true);
-//                dataLoadListener.onTaskLoaded();
             }
 
             @Override
@@ -60,8 +57,9 @@ public class NotesRepository {
             }
         });
     }
+
     public void addNoteToRepository(Note note) {
-        writeNewNoteToDatabase(note);
+        writeNoteToDatabase(note);
         MutableLiveData<Map<String, Note>> data = new MutableLiveData<>();
         data.setValue(mNotesMap);
     }
@@ -69,6 +67,7 @@ public class NotesRepository {
     public MutableLiveData<Boolean> getIsDataChanged() {
         return isDataChanged;
     }
+
     public MutableLiveData<Map<String, Note>> getNotesMap() {
         getNotesFromDatabase();
         MutableLiveData<Map<String, Note>> data = new MutableLiveData<>();
@@ -78,6 +77,12 @@ public class NotesRepository {
 
     public void logOut() {
         mNotesMap.clear();
+        isDataChanged.postValue(true);
+    }
+
+    public void deleteNoteFromDatabase(Note note) {
+        mNotesMap.remove(note.getNoteID());
+        database.getReference("notes").child(mAuth.getCurrentUser().getUid()).child(note.getNoteID()).removeValue();
         isDataChanged.postValue(true);
     }
 }

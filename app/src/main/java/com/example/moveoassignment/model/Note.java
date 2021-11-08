@@ -1,36 +1,29 @@
 package com.example.moveoassignment.model;
 
-import com.google.android.gms.maps.model.LatLng;
+import androidx.annotation.Nullable;
 
 import java.util.Date;
 
-public class Note {
-    private String mNoteID;
+public class Note implements Comparable<Note> {
+    private String noteID;
     private Date mCreationDate;
     private String mTitle;
     private String mBody;
     private LatLng mLocation;
 
-    public Note() {
-    }
-
     public Note(String noteID, Date creationDate, String title, String body, LatLng location) {
-        this.mNoteID = noteID;
+        this.noteID = noteID;
         this.mCreationDate = creationDate;
         this.mTitle = title;
         this.mBody = body;
         this.mLocation = location;
     }
 
-    public Note(String mNoteID, Date mCreationDate, String mTitle, String mBody) {
-        this.mNoteID = mNoteID;
-        this.mCreationDate = mCreationDate;
-        this.mTitle = mTitle;
-        this.mBody = mBody;
+    public Note() {
     }
 
     public String getNoteID() {
-        return mNoteID;
+        return noteID;
     }
 
     public void setCreationDate(Date mCreationDate) {
@@ -63,5 +56,19 @@ public class Note {
 
     public LatLng getLocation() {
         return mLocation;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        boolean equals = false;
+        if (obj instanceof Note) {
+            equals = this.noteID.equals(((Note) obj).noteID);
+        }
+        return equals;
+    }
+
+    @Override
+    public int compareTo(Note note) {
+        return this.mCreationDate.compareTo(note.getCreationDate());
     }
 }
