@@ -19,12 +19,15 @@
 
         <activity
             android:name=".view.activities.NotesActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".view.activities.LoginActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".view.activities.MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
