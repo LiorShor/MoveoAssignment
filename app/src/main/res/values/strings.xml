@@ -1,3 +1,37 @@
 <resources>
     <string name="app_name">MoveoAssignment</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_email">Not a valid email</string>
+    <string name="invalid_full_name">Not a valid full name</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="enter_email">Enter email</string>
+    <string name="enter_password">Enter password</string>
+    <string name="login">Login</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="create_new_account">Create new account</string>
+    <string name="registration">Registration</string>
+    <string name="enter_full_name">Enter full name</string>
+    <string name="register">Register</string>
+    <string name="add_note">Add note</string>
+    <string name="map">Map</string>
+    <string name="list">List</string>
+    <string name="unknown_email">The email you entered isn’t connected to an account</string>
+    <string name="new_note">New Note</string>
+    <string name="enter_title">Enter title</string>
+    <string name="enter_note_body">Enter note body</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="edit_note">Edit Note</string>
+    <string name="click_on_the_button_to_add_new_notes">Click on the + button to add new notes</string>
+    <string name="forgot_password_title">Forgot password</string>
+    <string name="recover">Recover</string>
+    <string name="emailsent">An email has been sent to your email box</string>
 </resources>
