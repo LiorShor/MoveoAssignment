@@ -15,7 +15,6 @@ import com.example.moveoassignment.repositories.UserRepository;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginRegisterViewModel extends ViewModel {
-    //TODO: Implement forgotpassword via firebase
     private final MutableLiveData<FormState> registerFormState = new MutableLiveData<>();
     private final MutableLiveData<FormState> loginFormState = new MutableLiveData<>();
     private final MutableLiveData<FirebaseUser> loggedInUser;
@@ -78,11 +77,17 @@ public class LoginRegisterViewModel extends ViewModel {
         return userRepository.getLoginErrorString();
     }
 
-    public LiveData<String> getRegisterString() {
+    public LiveData<String> getRegisterErrorString() {
         return userRepository.getRegisterErrorString();
     }
-
+    public LiveData<String> getForgotPasswordErrorString() {
+        return userRepository.getForgotPasswordErrorString();
+    }
     public LiveData<FirebaseUser> getUser() {
         return loggedInUser;
+    }
+
+    public void recoverLostPassword(String email, Context context) {
+        userRepository.recoverLostPassword(email,context);
     }
 }

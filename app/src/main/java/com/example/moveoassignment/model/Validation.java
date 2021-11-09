@@ -18,7 +18,7 @@ public class Validation {
         if (email.contains("@")) {
             return Patterns.EMAIL_ADDRESS.matcher(email).matches();
         } else {
-            return !email.trim().isEmpty();
+            return false;
         }
     }
 }

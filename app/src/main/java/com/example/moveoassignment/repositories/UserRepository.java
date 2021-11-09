@@ -20,6 +20,9 @@ public class UserRepository {
     private final MutableLiveData<String> loginErrorString = new MutableLiveData<>();
     private final MutableLiveData<String> registerErrorString = new MutableLiveData<>();
 
+
+    private final MutableLiveData<String> forgotPasswordErrorString = new MutableLiveData<>();
+
     public static UserRepository getInstance() {
         if (instance == null) {
             instance = new UserRepository();
@@ -83,5 +86,21 @@ public class UserRepository {
 
     public MutableLiveData<FirebaseUser> getLoggedInUser() {
         return loggedInUser;
+    }
+
+    public MutableLiveData<String> getForgotPasswordErrorString() {
+        return forgotPasswordErrorString;
+    }
+
+    public void recoverLostPassword(String email, Context context) {
+        if (!email.isEmpty()) {
+            mAuth.sendPasswordResetEmail(email)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            forgotPasswordErrorString.postValue(context.getString(R.string.emailsent));
+                        } else
+                            forgotPasswordErrorString.postValue(task.getException().getMessage());
+                    });
+        }
     }
 }

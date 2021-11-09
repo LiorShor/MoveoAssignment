@@ -5,9 +5,9 @@ import static android.content.Context.LOCATION_SERVICE;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +17,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
@@ -24,25 +27,44 @@ import com.example.moveoassignment.R;
 import com.example.moveoassignment.databinding.DialogNewNoteBinding;
 import com.example.moveoassignment.model.Note;
 import com.example.moveoassignment.viewmodel.NotesViewModel;
-
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import java.util.UUID;
 
 public class NewNoteDialog extends DialogFragment {
+
+    private final int REQUEST_CODE_ASK_PERMISSIONS = 123;
     private final NotesViewModel mNotesViewModel;
     private DialogNewNoteBinding mDialogNewNoteBinding;
     private final Note mEditNote;
+    private static final String TAG = "Permissions";
+
 
     public NewNoteDialog(NotesViewModel mNotesViewModel, Note existingNote) {
         this.mNotesViewModel = mNotesViewModel;
         this.mEditNote = existingNote;
+        registerForActivityResult(
+                new ActivityResultContracts.RequestPermission(),
+                result -> {
+                    if (result) {
+                        getLocation();
+                    } else {
+                        Log.e(TAG, "onActivityResult: PERMISSION DENIED");
+                    }
+                });
     }
 
     public static NewNoteDialog newInstance(NotesViewModel notesViewModel, Note existingNote) {
         return new NewNoteDialog(notesViewModel, existingNote);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getDialog().getWindow().setBackgroundDrawableResource(R.drawable.rounded_dialog);
+        getDialog().getWindow().setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
     @Override
@@ -64,7 +86,7 @@ public class NewNoteDialog extends DialogFragment {
             datePicker.init(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE), null);
             deleteButton.setOnClickListener(view1 -> {
                 mNotesViewModel.deleteNote(mEditNote);
-                deleteButton.setVisibility(View.INVISIBLE);
+                deleteButton.setVisibility(View.GONE);
                 this.dismiss();
             });
         }
@@ -86,11 +108,6 @@ public class NewNoteDialog extends DialogFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-/*        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
-                LOCATION_REFRESH_DISTANCE, mLocationListener);*/
         mDialogNewNoteBinding = DialogNewNoteBinding.inflate(LayoutInflater.from(getContext()));
         if (getDialog() != null) {
             getDialog().getWindow().setBackgroundDrawableResource(R.drawable.rounded_dialog);
@@ -113,25 +130,6 @@ public class NewNoteDialog extends DialogFragment {
         return calendar.getTime();
     }
 
-    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CODE_ASK_PERMISSIONS:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getLocation();
-                } else {
-                    // Permission Denied
-                    Toast.makeText(getContext(), "no permissions", Toast.LENGTH_SHORT)
-                            .show();
-                }
-                break;
-            default:
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }
 
     //Get location
     @SuppressLint("MissingPermission")

@@ -5,13 +5,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.moveoassignment.R;
 import com.example.moveoassignment.databinding.ActivityLoginBinding;
 import com.example.moveoassignment.view.Communicator;
+import com.example.moveoassignment.view.dialogs.ForgotPasswordDialog;
 import com.example.moveoassignment.view.fragments.login.LoginFragment;
 import com.example.moveoassignment.view.fragments.login.RegistrationFragment;
 import com.example.moveoassignment.viewmodel.LoginRegisterViewModel;
@@ -54,19 +54,19 @@ public class LoginActivity extends AppCompatActivity implements Communicator {
         isSignInFragment = true;
     }
 
-    // Implement onBackPressed so we will not get struggle with sign in / sign up fragments.
-    // When user presses back at the login activity, exit the app.
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-
         if (isSignInFragment) {
-            // Execute it later, so we will not break the event handling.
-            /*  new Handler().post(LoginActivity.this::finish);*/
-            finish();
+            this.moveTaskToBack(true);
         } else {
-            // Turn the flag on cause we were back from SignUpFragment
+            super.onBackPressed();
             isSignInFragment = true;
         }
+    }
+
+    public void showForgotPasswordDialog(){
+        FragmentManager fm = getSupportFragmentManager();
+        ForgotPasswordDialog newTaskDialog = ForgotPasswordDialog.newInstance();
+        newTaskDialog.show(fm, null);
     }
 }

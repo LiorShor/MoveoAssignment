@@ -39,6 +39,7 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final Button registerButton = mDialogLoginBinding.registerButton;
+        final Button forgotPassword = mDialogLoginBinding.forgotPasswordButton;
         final Button loginButton = mDialogLoginBinding.loginButton;
         final EditText emailEditText = mDialogLoginBinding.emailTextInputEditText;
         final EditText passwordEditText = mDialogLoginBinding.passwordTextInputEditText;
@@ -91,7 +92,12 @@ public class LoginFragment extends Fragment {
                 passwordEditText.getText().toString(),
                 getContext()));
 
-        mLoginRegisterViewModel.getLoginString().observe(getViewLifecycleOwner(),s ->
+        mLoginRegisterViewModel.getLoginString().observe(getViewLifecycleOwner(), s ->
                 Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show());
+        forgotPassword.setOnClickListener(view1 -> {
+            if (getActivity() != null) {
+                ((LoginActivity) getActivity()).showForgotPasswordDialog();
+            }
+        });
     }
 }

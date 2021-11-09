@@ -1,6 +1,5 @@
 package com.example.moveoassignment.view.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,21 +11,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.moveoassignment.databinding.NoteRowBinding;
 import com.example.moveoassignment.model.Note;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
     private final ArrayList<Note> mNotesList;
-    private final Context mContext;
     private final OnNoteListener mOnNoteListener;
+    private final SimpleDateFormat dateFormatForDate = new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm", Locale.getDefault());
 
-    public NotesAdapter(Map<String, Note> noteMap, Context context, OnNoteListener onNoteListener) {
+    public NotesAdapter(Map<String, Note> noteMap, OnNoteListener onNoteListener) {
         mNotesList = new ArrayList<>();
         this.mNotesList.addAll(noteMap.values());
         Collections.sort(mNotesList);
-        this.mContext = context;
         this.mOnNoteListener = onNoteListener;
     }
 
@@ -41,7 +40,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull NotesAdapter.ViewHolder holder, int position) {
         Note note = mNotesList.get(position);
         holder.mNoteRowBinding.noteTitleTextView.setText(note.getTitle());
-        holder.mNoteRowBinding.noteDateCreationTextView.setText(note.getCreationDate().toString());
+        holder.mNoteRowBinding.noteDateCreationTextView.setText(dateFormatForDate.format(note.getCreationDate()));
     }
 
     @Override

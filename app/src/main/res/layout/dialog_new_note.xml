@@ -28,7 +28,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/titleTextInputLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="10dp"
@@ -49,7 +49,7 @@
 
         <EditText
             android:id="@+id/bodyEditText"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
@@ -66,7 +66,7 @@
 
         <DatePicker
             android:id="@+id/datePicker"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="150dp"
             android:calendarViewShown="false"
             android:datePickerMode="spinner"
@@ -100,7 +100,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/button_style"
-            android:visibility="invisible"
+            android:visibility="gone"
             android:text="@string/delete"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/cancelButton"

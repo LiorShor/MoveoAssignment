@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.moveoassignment.databinding.FragmentNotesBinding;
 import com.example.moveoassignment.model.Note;
@@ -24,7 +25,6 @@ import java.util.Map;
 public class NotesFragment extends Fragment {
     private FragmentNotesBinding mFragmentNotesBinding;
     private NotesViewModel mNotesViewModel;
-    private NotesAdapter mNoteAdapter;
 
     public NotesFragment() {
     }
@@ -36,28 +36,28 @@ public class NotesFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        final RecyclerView notesRecyclerView = mFragmentNotesBinding.notesRecyclerView;
         super.onViewCreated(view, savedInstanceState);
+        final RecyclerView notesRecyclerView = mFragmentNotesBinding.notesRecyclerView;
+        final TextView emptyView = mFragmentNotesBinding.emptyView;
         if (getActivity() != null) {
             mNotesViewModel = ViewModelProviders.of(this).get(NotesViewModel.class);
             mNotesViewModel.init();
             ((NotesActivity) getActivity()).setNotesViewModel(mNotesViewModel);
         }
-        mNoteAdapter = new NotesAdapter(mNotesViewModel.getNotesMap().getValue(), getContext(),(NotesAdapter.OnNoteListener) getActivity());
+        NotesAdapter mNoteAdapter = new NotesAdapter(mNotesViewModel.getNotesMap().getValue(), (NotesAdapter.OnNoteListener) getActivity());
         notesRecyclerView.setAdapter(mNoteAdapter);
         notesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mNotesViewModel.getIsDataChanged().observe(getViewLifecycleOwner(), isDataChanged ->
         {
             if (isDataChanged) {
                 Map<String, Note> notesMap = mNotesViewModel.getNotesMap().getValue();
-                if(notesMap.size() > 0) {
+                if (notesMap.size() > 0) {
                     mNoteAdapter.setStatusesList(notesMap);
-                    mFragmentNotesBinding.notesRecyclerView.setVisibility(View.VISIBLE);
-                    mFragmentNotesBinding.emptyView.setVisibility(View.GONE);
-                }else
-                {
-                    mFragmentNotesBinding.notesRecyclerView.setVisibility(View.GONE);
-                    mFragmentNotesBinding.emptyView.setVisibility(View.VISIBLE);
+                    notesRecyclerView.setVisibility(View.VISIBLE);
+                    emptyView.setVisibility(View.GONE);
+                } else {
+                    notesRecyclerView.setVisibility(View.GONE);
+                    emptyView.setVisibility(View.VISIBLE);
                 }
             }
         });

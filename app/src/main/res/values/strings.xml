@@ -31,4 +31,7 @@
     <string name="delete">Delete</string>
     <string name="edit_note">Edit Note</string>
     <string name="click_on_the_button_to_add_new_notes">Click on the + button to add new notes</string>
+    <string name="forgot_password_title">Forgot password</string>
+    <string name="recover">Recover</string>
+    <string name="emailsent">An email has been sent to your email box</string>
 </resources>

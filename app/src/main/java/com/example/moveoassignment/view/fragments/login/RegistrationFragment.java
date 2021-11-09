@@ -83,7 +83,7 @@ public class RegistrationFragment extends Fragment {
                     emailEditText.getText().toString(),
                     passwordEditText.getText().toString(),
                     getContext());
-            mRegisterViewModel.getRegisterString().observe(getViewLifecycleOwner(), string -> {
+            mRegisterViewModel.getRegisterErrorString().observe(getViewLifecycleOwner(), string -> {
                 Toast.makeText(getContext(), string, Toast.LENGTH_SHORT).show();
             });
         });
