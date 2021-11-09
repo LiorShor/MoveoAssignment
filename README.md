@@ -1,2 +1,2 @@
 # MoveoAssignment
-Known bugs: On firt login user name is not displayed
+Known bugs: On first login user name is not displayed
